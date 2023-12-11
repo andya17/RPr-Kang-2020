@@ -12,4 +12,4 @@ Planned modifications:
 Plan for interpretation:
 
 - For speed limits, we can compare a printed list of the number of edges with each speed limit.
-- For both changes, we can see if the ultimate output, the accessibility map, changes
+- For both changes, we can see if the ultimate output, the accessibility map, changes. The shape of the catchment areas may change if the speed limits and the number of hexagons within a given catchment area are changing from the original reproduction to this reanalysis.
