@@ -14568,10 +14568,10 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
 <h2 id="Title:-Reproduction-of-Spatial-Accessibility-of-COVID-19-Healthcare-Resources-in-Illinois">Title: Reproduction of Spatial Accessibility of COVID-19 Healthcare Resources in Illinois<a class="anchor-link" href="#Title:-Reproduction-of-Spatial-Accessibility-of-COVID-19-Healthcare-Resources-in-Illinois">&#182;</a></h2><p><strong>Reproduction of</strong>: Rapidly measuring spatial accessibility of COVID-19 healthcare resources: a case study of Illinois, USA</p>
 <p>Original study <em>by</em> Kang, J. Y., A. Michels, F. Lyu, Shaohua Wang, N. Agbodo, V. L. Freeman, and Shaowen Wang. 2020. Rapidly measuring spatial accessibility of COVID-19 healthcare resources: a case study of Illinois, USA. International Journal of Health Geographics 19 (1):1–17. DOI:<a href="https://ij-healthgeographics.biomedcentral.com/articles/10.1186/s12942-020-00229-x">10.1186/s12942-020-00229-x</a>.</p>
 <p>Reproduction Authors: Joe Holler, Derrick Burt, and Kufre Udoh
-With contributions from Peter Kedron, Drew An-Pham, and the Spring 2021 Open Source GIScience class at Middlebury</p>
+With contributions from Peter Kedron, Drew An-Pham, Andy Atallah, and the Spring 2021 Open Source GIScience class at Middlebury</p>
 <p>Reproduction Materials Available at: <a href="https://github.com/HEGSRR/RPr-Kang-2020">github.com/HEGSRR/RPr-Kang-2020</a></p>
 <p>Created: <code>2021-06-01</code>
-Revised: <code>2021-08-19</code></p>
+Revised: <code>2023-12-13</code></p>
 
 </div>
 </div>
@@ -14592,12 +14592,12 @@ See <code>environment.yml</code> for the library versions used for this analysis
 
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[1]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Import modules</span>
@@ -14627,37 +14627,6 @@ See <code>environment.yml</code> for the library versions used for this analysis
      </div>
 </div>
 </div>
-</div>
-
-<div class="jp-Cell-outputWrapper">
-<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
-</div>
-
-
-<div class="jp-OutputArea jp-Cell-outputArea">
-
-<div class="jp-OutputArea-child">
-
-    
-    <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-
-
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
-<pre>numpy==1.22.0
-pandas==1.3.5
-geopandas==0.10.2
-networkx==2.6.3
-osmnx==1.1.2
-re==2.2.1
-folium==0.12.1.post1
-IPython==8.3.0
-requests==2.27.1
-</pre>
-</div>
-</div>
-
-</div>
-
 </div>
 
 </div>
@@ -15699,7 +15668,12 @@ Name: highway, dtype: int64
 <span class="sd">    return(network)</span>
 <span class="sd">&quot;&quot;&quot;</span>
 
+<span class="c1"># Renanalysis changes: involving the OSMnx package here instead of network_setting</span>
+
+<span class="c1"># Apply speeds (kph) to edges in road network</span>
 <span class="n">G</span> <span class="o">=</span> <span class="n">ox</span><span class="o">.</span><span class="n">speed</span><span class="o">.</span><span class="n">add_edge_speeds</span><span class="p">(</span><span class="n">G</span><span class="p">)</span>
+
+<span class="c1"># Add travel times to edges; in this way, units (kph vs mph) do not matter</span>
 <span class="n">G</span> <span class="o">=</span> <span class="n">ox</span><span class="o">.</span><span class="n">speed</span><span class="o">.</span><span class="n">add_edge_travel_times</span><span class="p">(</span><span class="n">G</span><span class="p">)</span>
 </pre></div>
 
@@ -15933,7 +15907,8 @@ Compare to the previous results.</p>
     <span class="c1"># create dictionary of nearest nodes</span>
     <span class="n">nearest_nodes_30</span> <span class="o">=</span> <span class="n">nx</span><span class="o">.</span><span class="n">single_source_dijkstra_path_length</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="n">nearest_osm</span><span class="p">,</span> <span class="n">distances</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">distance_unit</span><span class="p">)</span> <span class="c1"># creating the largest graph from which 10 and 20 minute drive times can be extracted from</span>
     
-    <span class="c1"># extract values within 20 and 10 (respectively) minutes drive times</span>
+    <span class="c1"># extract values within 20 and 10 (respectively) minutes drive times; </span>
+        <span class="c1"># convert to seconds due to OSMnx functions</span>
     <span class="n">nearest_nodes_20</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
     <span class="n">nearest_nodes_10</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
     <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">nearest_nodes_30</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
@@ -15961,6 +15936,7 @@ Compare to the previous results.</p>
     
     <span class="c1"># 20 MIN</span>
     <span class="c1"># Select nodes less than or equal to 20</span>
+    <span class="c1"># convert to seconds due to OSMnx functions</span>
     <span class="n">points_20</span> <span class="o">=</span> <span class="n">points_30</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="s2">&quot;z &lt;= 1200&quot;</span><span class="p">)</span>
     
     <span class="c1"># Create a convex hull polygon from the points</span>
@@ -15969,6 +15945,7 @@ Compare to the previous results.</p>
     
     <span class="c1"># 10 MIN</span>
     <span class="c1"># Select nodes less than or equal to 10</span>
+    <span class="c1"># convert to seconds due to OSMnx functions</span>
     <span class="n">points_10</span> <span class="o">=</span> <span class="n">points_30</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="s2">&quot;z &lt;= 600&quot;</span><span class="p">)</span>
     
     <span class="c1"># Create a convex hull polygon from the points</span>
@@ -16051,22 +16028,6 @@ Compare to the previous results.</p>
     <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{:.0f}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">_thread_id</span><span class="p">),</span> <span class="n">end</span><span class="o">=</span><span class="s2">&quot; &quot;</span><span class="p">,</span> <span class="n">flush</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
     <span class="k">return</span><span class="p">(</span><span class="n">_thread_id</span><span class="p">,</span> <span class="p">[</span> <span class="n">polygon</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">deep</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="k">for</span> <span class="n">polygon</span> <span class="ow">in</span> <span class="n">polygons</span> <span class="p">])</span> 
  
-</pre></div>
-
-     </div>
-</div>
-</div>
-</div>
-
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
-<div class="jp-Cell-inputWrapper">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-     <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span> 
 </pre></div>
 
      </div>
@@ -16451,7 +16412,7 @@ Compare to the previous results.</p>
     <span class="n">pop_data</span> <span class="o">=</span> <span class="n">pop_centroid</span><span class="p">(</span><span class="n">atrisk_data</span><span class="p">,</span> <span class="n">population_dropdown</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
 <span class="k">elif</span> <span class="n">population_dropdown</span><span class="o">.</span><span class="n">value</span> <span class="o">==</span> <span class="s2">&quot;covid&quot;</span><span class="p">:</span>
     <span class="n">pop_data</span> <span class="o">=</span> <span class="n">pop_centroid</span><span class="p">(</span><span class="n">covid_data</span><span class="p">,</span> <span class="n">population_dropdown</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
-<span class="n">distances</span><span class="o">=</span><span class="p">[</span><span class="mi">600</span><span class="p">,</span><span class="mi">1200</span><span class="p">,</span><span class="mi">1800</span><span class="p">]</span> <span class="c1"># Distances in travel time</span>
+<span class="n">distances</span><span class="o">=</span><span class="p">[</span><span class="mi">600</span><span class="p">,</span><span class="mi">1200</span><span class="p">,</span><span class="mi">1800</span><span class="p">]</span> <span class="c1"># Distances in travel time; convert to seconds based on OSMnx speed functions</span>
 <span class="n">weights</span><span class="o">=</span><span class="p">[</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">0.68</span><span class="p">,</span> <span class="mf">0.22</span><span class="p">]</span> <span class="c1"># Weights where weights[0] is applied to distances[0]</span>
 <span class="c1"># Other weighting options representing different distance decays</span>
 <span class="c1"># weights1, weights2, weights3 = [1.0, 0.42, 0.09], [1.0, 0.75, 0.5], [1.0, 0.5, 0.1]</span>
